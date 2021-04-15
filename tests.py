@@ -1,17 +1,28 @@
 from bs4 import *
 import requests as r
+from datetime import datetime
+import os
 
-source = r.get('https://docs.python-requests.org/en/master/').text
+if os.path.isfile('headlines.txt'):
+    pass
+else:
+    with open('headlines.txt', 'w'):
+        pass
 
-soup = BeautifulSoup(source, features="html.parser")
+now = datetime.now()
 
 
+source = r.get('https://www.tijd.be/').text
 
-# match var.find('div', class_='footer'))
-# match a div with an id of footer
-# check = article.p.text
+soup = BeautifulSoup(source, features='html.parser')
 
-match = soup.find('div', class_='footer')
+match = soup.find_all('div', class_='c-articleteaser__title')
 
-finish = match.a.text
-print(finish)
+with open('headlines.txt', 'a', encoding="utf-8") as docu:
+    docu.write(f"De Tijd headlines van {now}\n\n")
+
+    for a in match:
+        headline = a.text
+        docu.write(f'-{headline}\n')
+
+    docu.write('\n')
