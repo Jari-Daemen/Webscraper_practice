@@ -1,3 +1,5 @@
+## Copies all headlines from 'De Tijd' ##
+
 from bs4 import *
 import requests as r
 from datetime import datetime
