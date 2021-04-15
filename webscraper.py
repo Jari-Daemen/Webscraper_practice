@@ -1,34 +1,28 @@
-<<<<<<< HEAD
-# webscraping tutorial
-
-import bs4 as bs
-import requests as r
-
-#source= r.get('url).text
-
-# format to see nesting
-# print(var.prettify())
-=======
-#Websraping tutorial
-
 from bs4 import *
 import requests as r
+from datetime import datetime
+import os
 
-source = r.get('https://docs.python-requests.org/en/master/').text
+if os.path.isfile('headlines.txt'):
+    pass
+else:
+    with open('headlines.txt', 'w'):
+        pass
 
-soup = BeautifulSoup(source, features="html.parser")
-
->>>>>>> tests
+now = datetime.now()
 
 
-# match var.find('div', class_='footer'))
-# match a div with an id of footer
-# check = article.p.text
-<<<<<<< HEAD
-=======
+source = r.get('https://www.tijd.be/').text
 
-match = soup.find('div', class_='footer')
+soup = BeautifulSoup(source, features='html.parser')
 
-finish = match.a.text
-print(finish)
->>>>>>> tests
+match = soup.find_all('div', class_='c-articleteaser__title')
+
+with open('headlines.txt', 'a', encoding="utf-8") as docu:
+    docu.write(f"De Tijd headlines van {now}\n\n")
+
+    for a in match:
+        headline = a.text
+        docu.write(f'-{headline}\n')
+
+    docu.write('\n')
